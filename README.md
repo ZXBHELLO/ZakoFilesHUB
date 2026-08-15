@@ -14,25 +14,24 @@
 ## 技术栈
 
 Vue 3 · Vite · TypeScript · Hugging Face Hub · Cloudflare Pages
-
 ## 快速开始
 
 ```bash
-npm install
-npm run dev
+npm install      # 安装依赖
+npm run dev      # 启动开发服务器
+npm run build    # 构建项目
+npm run preview  # 预览项目在本地环境
 ```
 
 ## 部署
 
-推送代码到 GitHub，然后选择以下任一方式拉取部署：
+Fork 代码到 GitHub仓库，然后拉取部署：
 
 **Cloudflare Pages**
 1. Dashboard → Workers & Pages → Create → Pages → Connect to Git
 2. 构建命令 `npm run build`，输出目录 `dist`
 
-**GitHub Pages**
-1. 修改 `vite.config.ts` 中 `base` 为 `'/你的仓库名/'`
-2. Settings → Pages → Source 选择 GitHub Actions
+其他部署方式类似，根据具体平台进行配置。
 
 ## License
 
