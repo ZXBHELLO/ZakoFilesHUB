@@ -1,36 +1,45 @@
 <script setup lang="ts">
 import type { HfFile } from '../api/types'
-import { formatSize } from '../utils/file'
+import { formatSize, isImageFile, getFileDisplayIcon } from '../utils/file'
+import { toProxyUrl } from '../utils/url'
 
-defineProps<{
+const props = defineProps<{
   file: HfFile
   selected: boolean
+  index: number
+  selectMode: boolean
+  dragging?: boolean
 }>()
 
 const emit = defineEmits<{
   click: [path: string]
-  toggleSelect: [path: string]
+  dragSelectStart: [path: string]
 }>()
 </script>
 
 <template>
   <div
     class="card"
-    :class="{ selected }"
-    @click="emit('click', file.path)"
+    :class="{ selected, 'select-mode': selectMode, 'drag-active': dragging }"
+    :style="{ animationDelay: Math.min(index * 30, 300) + 'ms' }"
+    @click="!selectMode && emit('click', file.path)"
+    @mouseenter="selectMode && dragging && emit('dragSelectStart', file.path)"
   >
     <div class="thumb">
-      <img :src="file.url" :alt="file.name" loading="lazy" />
-      <div class="overlay">
-        <button
-          class="select-btn"
-          :class="{ checked: selected }"
-          @click.stop="emit('toggleSelect', file.path)"
-        >
-          <svg v-if="selected" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
+      <img
+        v-if="isImageFile(file.path)"
+        :src="toProxyUrl(file.url)"
+        :alt="file.name"
+        loading="lazy"
+        referrerpolicy="no-referrer"
+      />
+      <div v-else class="file-icon">{{ getFileDisplayIcon(file.path) }}</div>
+      <div v-if="selectMode" class="select-overlay" :class="{ checked: selected }">
+        <div class="select-check">
+          <svg v-if="selected" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3">
             <polyline points="20 6 9 17 4 12" />
           </svg>
-        </button>
+        </div>
       </div>
     </div>
     <div class="meta">
@@ -47,10 +56,17 @@ const emit = defineEmits<{
   border-radius: var(--radius-sm);
   overflow: hidden;
   cursor: pointer;
-  transition: border-color 0.15s, transform 0.1s;
+  transition: border-color 0.2s var(--ease), transform 0.15s var(--ease);
+  animation: card-in 0.4s var(--ease-out) both;
+  position: relative;
 }
-.card:hover { border-color: var(--rule); }
+.card:hover {
+  border-color: var(--rule);
+  transform: translateY(-2px);
+}
+.card:active { transform: scale(0.97); }
 .card.selected { border-color: var(--accent); }
+.card.drag-active { border-color: var(--accent); }
 
 .thumb {
   position: relative;
@@ -65,35 +81,30 @@ const emit = defineEmits<{
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
-  transition: transform 0.2s;
+  transition: transform 0.3s var(--ease-out);
 }
-.card:hover .thumb img { transform: scale(1.05); }
+.card:hover .thumb img { transform: scale(1.08); }
 
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 30%);
-  opacity: 0;
-  transition: opacity 0.15s;
+.file-icon {
+  font-size: 2.5rem;
+  opacity: 0.6;
 }
-.card:hover .overlay { opacity: 1; }
-.card.selected .overlay { opacity: 1; }
 
-.select-btn {
+.select-overlay {
   position: absolute;
   top: 8px;
   left: 8px;
-  width: 22px;
-  height: 22px;
-  border-radius: 4px;
-  border: 2px solid rgba(255,255,255,0.8);
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  border: 2px solid rgba(255,255,255,0.7);
   background: rgba(0,0,0,0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  transition: background 0.15s, border-color 0.15s;
 }
-.select-btn.checked {
+.select-overlay.checked {
   background: var(--accent);
   border-color: var(--accent);
 }

@@ -1,5 +1,5 @@
 {
-  "name": "hf-image-hub",
+  "name": "zako-files-hub",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -11,7 +11,6 @@
     "deploy:dry": "vite build && npx wrangler pages publish dist --project-name=hf-image-hub --dry-run"
   },
   "dependencies": {
-    "@huggingface/hub": "^2.15.0",
     "vue": "^3.4.0"
   },
   "devDependencies": {

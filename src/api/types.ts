@@ -1,3 +1,5 @@
+export type RepoType = 'model' | 'dataset'
+
 export interface HfUser {
   name: string
   fullname?: string
@@ -20,23 +22,6 @@ export interface HfFile {
   album: string
 }
 
-export interface HfRepoInfo {
-  id: string
-  name: string
-  private: boolean
-  size?: number
-  downloads?: number
-  likes?: number
-  lastModified?: string
-}
-
-export interface UploadProgress {
-  file: string
-  progress: number
-  loaded: number
-  total: number
-}
-
 export interface UploadTask {
   id: string
   file: File
@@ -48,4 +33,27 @@ export interface UploadTask {
 
 export type LinkFormat = 'url' | 'markdown' | 'html' | 'bbcode'
 
-export const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.ico']
+export type ViewMode = 'grid' | 'list'
+
+export const IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', '.bmp', '.ico', '.avif']
+
+export const VIDEO_EXTENSIONS = ['.mp4', '.webm', '.ogg', '.ogv', '.mov', '.m4v']
+
+export const TEXT_EXTENSIONS = ['.txt', '.md', '.markdown', '.json', '.js', '.ts', '.jsx', '.tsx', '.html', '.css', '.scss', '.vue', '.py', '.yaml', '.yml', '.xml', '.csv', '.log', '.sh', '.bat', '.ini', '.conf', '.toml', '.go', '.rs', '.java', '.c', '.cpp', '.h', '.rb', '.php', '.sql']
+
+export const FILE_ICONS: Record<string, string> = {
+  '.pdf': '📄',
+  '.doc': '📝', '.docx': '📝',
+  '.xls': '📊', '.xlsx': '📊', '.csv': '📊',
+  '.ppt': '📽', '.pptx': '📽',
+  '.zip': '📦', '.rar': '📦', '.7z': '📦', '.gz': '📦', '.tar': '📦',
+  '.mp4': '🎬', '.avi': '🎬', '.mov': '🎬', '.mkv': '🎬', '.webm': '🎬',
+  '.mp3': '🎵', '.wav': '🎵', '.flac': '🎵', '.ogg': '🎵',
+  '.txt': '📃', '.md': '📃',
+  '.js': '⚙', '.ts': '⚙', '.json': '⚙', '.html': '⚙', '.css': '⚙', '.vue': '⚙', '.py': '⚙',
+  '.exe': '🔧', '.dmg': '🔧', '.apk': '🔧',
+}
+
+export function getFileIcon(ext: string): string {
+  return FILE_ICONS[ext] || '📁'
+}
