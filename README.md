@@ -36,4 +36,4 @@ npm run dev
 
 ## License
 
-PolyForm Noncommercial 1.0.0 — 非商用可自由使用、修改、分发，需保留原作者信息。商用需联系作者获取授权。详见 [LICENSE](./LICENSE)。
+非商用可自由使用、修改、分发，需保留原作者信息。商用需联系作者获取授权。
