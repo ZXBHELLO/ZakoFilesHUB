@@ -2,6 +2,8 @@
 
 基于 Hugging Face Hub 的免费文件管理系统。纯前端架构，零后端，部署即用。
 
+**更详细的文档请移步**: [Zako Files HUB：基于 Hugging Face 的免费文件管理系统](https://www.zakozako.cc/article/ZakoFilesHUB/)
+
 ## 特性
 
 - 无限免费公开存储，单文件上限 5GB
